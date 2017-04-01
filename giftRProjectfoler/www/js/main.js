@@ -310,12 +310,19 @@
              li.className = "table-view-cell";
              //add grey as background color for the past dates
                //find current date (monthDay format)
+
              var dateObj = new Date();
-             var monthCurrent = (dateObj.getUTCMonth()+1).toString();
-             var dayCurrent = dateObj.getUTCDate().toString();
-             var monthDayCurrentNum = parseInt(monthCurrent+dayCurrent);
-//             console.dir(monthDayCurrentNum);
-             
+             var monthCurrent = (dateObj.getMonth()+1).toString();
+             var dayCurrent = dateObj.getDate().toString();
+             var monthDayCurrentNum = -1;
+             //if day is less than 10, for example, April 1st, we need 401 instead of 41
+             if(dateObj.getDate() < 10){
+                monthDayCurrentNum = parseInt(monthCurrent)*100 + parseInt(dayCurrent);
+               
+             }else{
+                 monthDayCurrentNum = parseInt(monthCurrent+dayCurrent);
+             }
+//             console.log(monthDayCurrentNum);
              if(person.monthDay < monthDayCurrentNum){
                  li.classList.add("grey");
              }
