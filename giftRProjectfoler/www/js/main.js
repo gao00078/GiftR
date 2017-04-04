@@ -7,7 +7,7 @@
 
 
                  Version: 0.0.1
-                 Updated: Feb 24, 2017
+                 Updated: March 30, 2017
                  *****************************************************************/
  var app = {
      //declare 2 global variables
@@ -123,7 +123,33 @@
          if(document.getElementById("idea").value){
              app.localStorageList.people[indexTemp].ideas.push(ideaEachTemp);
              localStorage.setItem("giftr-gao00078", JSON.stringify(app.localStorageList));
+         }else{
+             
+         //create a new div, adding message here to indicate if save idea successfully or not
+         let divparent = document.getElementById("page-gift");
+         let list = document.getElementById("gift-list");
+             
+         
+         let divMsg = document.createElement("div");
+         divMsg.classList.add("msg");
+        setTimeout(function(){
+            divMsg.classList.add("bad");
+        }, 20); //delay before adding the class to trigger transition  
+             
+             
+             
+         divMsg.textContent = "Gift idea field is required!";
+         divparent.insertBefore(divMsg,list);
+         setTimeout((function(dparent,dm){
+             return function(){
+                 dparent.removeChild(dm);
+             }
+         })(divparent,divMsg),3000); 
+             
          }
+         
+         
+         
          //dispatch touchend event to closeGiftModal button
          var myTouchEndEv = new CustomEvent("touchend", {bubbles:true});
          var closeGiftModal = document.getElementById("closeGiftModal");
@@ -162,6 +188,12 @@
          let headingGiftModal = document.getElementById("headind-name-modal");
          headingGiftModal.textContent = "Buying a gift for " + app.localStorageList.people[indexTemp].fullname;
          
+         
+
+         
+         
+         
+         //start building all ideas for the person one idea by one idea
          for (var i = 0, len = app.localStorageList.people[indexTemp].ideas.length; i < len; i++) {
              let li = document.createElement("li");
              li.className = "table-view-cell media";
@@ -236,7 +268,31 @@
              
              if(temPerson.fullname && temPerson.dateOfBirth){
                  app.localStorageList.people.push(temPerson);    
-             }    
+             }else{
+                 
+                  //create a new div, adding message here to indicate if save idea successfully or not
+                 let divparent = document.getElementById("page-people");
+                 let list = document.getElementById("contact-list");
+
+
+                 let divMsg = document.createElement("div");
+                 divMsg.classList.add("msg");
+                setTimeout(function(){
+                    divMsg.classList.add("bad");
+                }, 20); //delay before adding the class to trigger transition  
+
+
+
+                 divMsg.textContent = "Please enter both a name and DOB!";
+                 divparent.insertBefore(divMsg,list);
+                 setTimeout((function(dparent,dm){
+                     return function(){
+                         dparent.removeChild(dm);
+                     }
+                 })(divparent,divMsg),3000); 
+                 
+             }
+             
          }
          else {
              console.log("enter savePerson else->show currentPerson");
